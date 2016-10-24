@@ -105,7 +105,7 @@ public class TestOrderServiceImpl {
 		orderService.addItemToOrder(item2);
 
 		BigDecimal serviceCharge = item1.getPrice().add(item2.getPrice())
-				.multiply(BillPaymentConstants.COLD_FOOD_SERVICE_CHARGE);
+				.multiply(BillPaymentConstants.COLD_FOOD_SERVICE_CHARGE).setScale(2, RoundingMode.HALF_EVEN);
 
 		assertTrue(orderService.calculateServiceCharge().equals(serviceCharge));
 	}
@@ -121,7 +121,7 @@ public class TestOrderServiceImpl {
 
 		orderService.addItemToOrder(item2);
 		
-		assertTrue(orderService.calculateServiceCharge().equals( new BigDecimal(0)));
+		assertTrue(orderService.calculateServiceCharge().equals( new BigDecimal(0).setScale(2, RoundingMode.HALF_EVEN)));
 	}
 
 	
@@ -135,7 +135,7 @@ public class TestOrderServiceImpl {
 		orderService.addItemToOrder(item2);
 
 		BigDecimal serviceCharge = item1.getPrice().add(item2.getPrice())
-				.multiply(BillPaymentConstants.HOT_FOOD_SERVICE_CHARGE);
+				.multiply(BillPaymentConstants.HOT_FOOD_SERVICE_CHARGE).setScale(2, RoundingMode.HALF_EVEN);
 
 		assertTrue(orderService.calculateServiceCharge().equals(serviceCharge));
 	}

@@ -48,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public BigDecimal calculateServiceCharge() {
-		BigDecimal charge = new BigDecimal(0);
+		BigDecimal charge = new BigDecimal(0).setScale(2, RoundingMode.HALF_EVEN);
 
 		
 		/// check for  hot food items, if this is greater than 0 use the hot food
@@ -70,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
 					BillPaymentConstants.COLD_FOOD_SERVICE_CHARGE);
 		}
 
-		return charge;
+		return charge.setScale(2, RoundingMode.HALF_EVEN);
 	}
 
 }
