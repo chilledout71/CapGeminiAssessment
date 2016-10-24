@@ -59,6 +59,10 @@ public class OrderServiceImpl implements OrderService {
 
 			charge = this.getTotalOrderCosts().multiply(
 					BillPaymentConstants.HOT_FOOD_SERVICE_CHARGE);
+			if(charge.compareTo(BillPaymentConstants.MAXIMUM_HOT_CHARGE)>0){
+				charge = BillPaymentConstants.MAXIMUM_HOT_CHARGE;
+			}
+			
 		}
 		// else check for cold food items, if this is greater than 0 use the cold food
 		// charge

@@ -126,7 +126,7 @@ public class TestOrderServiceImpl {
 
 	
 	@Test
-	public void testHotFoodItemServiceCharge() {
+	public void testHotFoodItemServiceChargeBelowMaximum() {
 
 		Item item1 = menu.getMenuItem("COLA");
 		orderService.addItemToOrder(item1);
@@ -140,5 +140,31 @@ public class TestOrderServiceImpl {
 		assertTrue(orderService.calculateServiceCharge().equals(serviceCharge));
 	}
 	
+	@Test
+	public void testHotFoodItemServiceChargeOverMaximum(){
+		//Service charge would be 20.7 so should return 20
+		for(int i = 0; i<23;i++){
+			orderService.addItemToOrder(menu.getMenuItem("STEAK_SANDWICH"));
+		
+		}
+		
+		assertTrue(orderService.calculateServiceCharge().equals(new BigDecimal(20).setScale(2)));
+		
+		
+		
+	}
+	
+	@Test
+	public void testColdFoodHasNoMaxServiceCharge(){
+		//Service charge will be 20.4 , no max applied
+		for(int i = 0; i<51;i++){
+			orderService.addItemToOrder(menu.getMenuItem("CHEESE_SANDWICH"));
+		}
+		BigDecimal charge = menu.getMenuItem("CHEESE_SANDWICH").getPrice().multiply(new BigDecimal(51)).multiply(BillPaymentConstants.COLD_FOOD_SERVICE_CHARGE);
+		
+
+		assertTrue(orderService.calculateServiceCharge().equals(charge.setScale(2,RoundingMode.HALF_EVEN)));
+		
+	}
 	
 }
