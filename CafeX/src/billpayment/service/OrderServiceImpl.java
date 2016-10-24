@@ -13,7 +13,7 @@ import billpayment.model.Order;
 public class OrderServiceImpl implements OrderService {
 
 	private Order order;
-	
+
 	@Override
 	public void addItemToOrder(Item item) {
 		if (order == null) {
@@ -25,7 +25,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public Order getOrder() {
-		
+
 		return order;
 	}
 
@@ -49,13 +49,27 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public BigDecimal calculateServiceCharge() {
 		BigDecimal charge = new BigDecimal(0);
+
 		
-		if(order.getOrderedItems().stream().filter(item->item.getFoodType()==FoodType.HOT_FOOD).count()>0 ||
-				order.getOrderedItems().stream().filter(item->item.getFoodType()==FoodType.COLD_FOOD).count()>0){
-			
-			charge = this.getTotalOrderCosts().multiply(BillPaymentConstants.FOOD_SERVICE_CHARGE);
+		/// check for  hot food items, if this is greater than 0 use the hot food
+		// charge
+		if (order.getOrderedItems().stream()
+				.filter(item -> item.getFoodType() == FoodType.HOT_FOOD)
+				.count() > 0) {
+
+			charge = this.getTotalOrderCosts().multiply(
+					BillPaymentConstants.HOT_FOOD_SERVICE_CHARGE);
 		}
-			
+		// else check for cold food items, if this is greater than 0 use the cold food
+		// charge
+		else if (order.getOrderedItems().stream()
+				.filter(item -> item.getFoodType() == FoodType.COLD_FOOD)
+				.count() > 0) {
+
+			charge = this.getTotalOrderCosts().multiply(
+					BillPaymentConstants.COLD_FOOD_SERVICE_CHARGE);
+		}
+
 		return charge;
 	}
 
