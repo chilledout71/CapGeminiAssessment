@@ -1,5 +1,9 @@
 package billpayment.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 import billpayment.model.Item;
 import billpayment.model.Order;
 
@@ -18,8 +22,25 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public Order getOrder() {
-		// TODO Auto-generated method stub
+		
 		return order;
+	}
+
+	@Override
+	public BigDecimal getTotalOrderCosts() {
+		BigDecimal total = order.getOrderedItems().stream().map(Item::getPrice)
+				.reduce(BigDecimal.ZERO, BigDecimal::add);
+		return total;
+	}
+
+	@Override
+	public List<BigDecimal> getItemisedCostList() {
+		List<BigDecimal> itemCostList = new ArrayList<BigDecimal>();
+
+		order.getOrderedItems().stream()
+				.forEach(item -> itemCostList.add(item.getPrice()));
+
+		return itemCostList;
 	}
 
 }

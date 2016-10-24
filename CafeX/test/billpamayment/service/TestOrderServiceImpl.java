@@ -44,7 +44,7 @@ public class TestOrderServiceImpl {
 	@Test
 	public void testAddTwoItemsToOrder() {
 
-		Item item1 =menu.getMenuItem("COLA");
+		Item item1 = menu.getMenuItem("COLA");
 
 		orderService.addItemToOrder(item1);
 
@@ -56,6 +56,41 @@ public class TestOrderServiceImpl {
 		assertTrue(orderService.getOrder().getOrderedItems().get(0) == item1);
 		assertTrue(orderService.getOrder().getOrderedItems().get(1) == item2);
 	}
+	
+	
+	
+	@Test
+	public void testTotalCost(){
+
+
+		Item item1 = menu.getMenuItem("COLA");
+
+		orderService.addItemToOrder(item1);
+
+		Item item2 = menu.getMenuItem("COFFEE");
+
+		orderService.addItemToOrder(item2);
+		
+		assertTrue(orderService.getTotalOrderCosts().equals(item1.getPrice().add(item2.getPrice())));
+
+	
+	}
+	
+	@Test
+	public void testItemPriceList(){
+		
+		Item item1 = menu.getMenuItem("COLA");
+		orderService.addItemToOrder(item1);
+
+		Item item2 = menu.getMenuItem("COFFEE");
+		orderService.addItemToOrder(item2);
+		
+		assertTrue(orderService.getItemisedCostList().get(0).equals(item1.getPrice() ));
+		assertTrue(orderService.getItemisedCostList().get(1).equals(item2.getPrice()));
+		
+	}
+	
+	
 	
 
 }

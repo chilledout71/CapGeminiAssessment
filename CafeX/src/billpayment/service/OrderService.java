@@ -1,5 +1,8 @@
 package billpayment.service;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import billpayment.model.Item;
 import billpayment.model.Order;
 
@@ -20,6 +23,19 @@ public interface OrderService {
 	 * @return
 	 */
 	public Order getOrder();
+	
+	/**
+	 * get the total cost of the order
+	 * @return 
+	 */
+	public BigDecimal getTotalOrderCosts();
+	
+	/**
+	 * get the cost of each item in the order
+	 * @return
+	 */
+	public List<BigDecimal> getItemisedCostList();
+	
 	
 
 }
