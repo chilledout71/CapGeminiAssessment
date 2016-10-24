@@ -1,9 +1,12 @@
 package billpayment.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import billpayment.model.BillPaymentConstants;
+import billpayment.model.FoodType;
 import billpayment.model.Item;
 import billpayment.model.Order;
 
@@ -41,6 +44,19 @@ public class OrderServiceImpl implements OrderService {
 				.forEach(item -> itemCostList.add(item.getPrice()));
 
 		return itemCostList;
+	}
+
+	@Override
+	public BigDecimal calculateServiceCharge() {
+		BigDecimal charge = new BigDecimal(0);
+		
+		if(order.getOrderedItems().stream().filter(item->item.getFoodType()==FoodType.HOT_FOOD).count()>0 ||
+				order.getOrderedItems().stream().filter(item->item.getFoodType()==FoodType.COLD_FOOD).count()>0){
+			
+			charge = this.getTotalOrderCosts().multiply(BillPaymentConstants.FOOD_SERVICE_CHARGE);
+		}
+			
+		return charge;
 	}
 
 }

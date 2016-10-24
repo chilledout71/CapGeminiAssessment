@@ -36,6 +36,12 @@ public interface OrderService {
 	 */
 	public List<BigDecimal> getItemisedCostList();
 	
+	/**
+	 * calculate the service charge for this order
+	 * @return
+	 */
+	public  BigDecimal calculateServiceCharge();
+	
 	
 
 }
