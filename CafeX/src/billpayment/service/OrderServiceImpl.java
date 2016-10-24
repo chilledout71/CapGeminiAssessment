@@ -76,5 +76,26 @@ public class OrderServiceImpl implements OrderService {
 
 		return charge.setScale(2, RoundingMode.HALF_EVEN);
 	}
+	
+	@Override
+	public BigDecimal getFullCost() {
+		BigDecimal finalCost = this.getTotalOrderCosts().add(
+				this.calculateServiceCharge()).setScale(2,
+				RoundingMode.HALF_EVEN);
+		return finalCost;
+	}
+
+	@Override
+	public String printFullBill() {
+		StringBuffer sb = new StringBuffer();
+		sb.append(getItemisedCostList());
+		sb.append(System.getProperty("line.separator"));
+		sb.append("Total of items is " + getTotalOrderCosts());
+		sb.append(System.getProperty("line.separator"));
+		sb.append("Service Charge is " + calculateServiceCharge());
+		sb.append(System.getProperty("line.separator"));
+		sb.append("Grand Total is " + getFullCost());
+		return sb.toString();
+	}
 
 }

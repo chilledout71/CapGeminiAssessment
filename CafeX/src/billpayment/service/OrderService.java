@@ -42,6 +42,16 @@ public interface OrderService {
 	 */
 	public  BigDecimal calculateServiceCharge();
 	
+	/**
+	 * get the final cost 
+	 * @return
+	 */
+	public BigDecimal getFullCost();
 	
+	/**
+	 * print out the full bill
+	 * @return
+	 */
+	public String printFullBill();
 
 }

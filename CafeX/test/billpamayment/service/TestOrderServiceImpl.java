@@ -167,4 +167,56 @@ public class TestOrderServiceImpl {
 		
 	}
 	
+	@Test
+	public void testFinalCost(){
+		
+		Item item1 = menu.getMenuItem("COFFEE");
+		orderService.addItemToOrder(item1);
+
+		Item item2 = menu.getMenuItem("CHEESE_SANDWICH");
+
+		orderService.addItemToOrder(item2);
+
+		Item item3 = menu.getMenuItem("STEAK_SANDWICH");
+
+		orderService.addItemToOrder(item3);
+
+		BigDecimal charge = item1.getPrice().add(item2.getPrice()).add(item3.getPrice()).multiply(BillPaymentConstants.HOT_FOOD_SERVICE_CHARGE).setScale(2, RoundingMode.HALF_EVEN);
+		BigDecimal fullCost = charge.add(item1.getPrice()).add(item2.getPrice()).add(item3.getPrice()); 
+		assertTrue(orderService.getFullCost().equals(fullCost));
+		
+		
+	}
+	
+	@Test
+	public void testFullBillPrint(){
+		Item item1 = menu.getMenuItem("COFFEE");
+		orderService.addItemToOrder(item1);
+
+		Item item2 = menu.getMenuItem("CHEESE_SANDWICH");
+
+		orderService.addItemToOrder(item2);
+
+		Item item3 = menu.getMenuItem("STEAK_SANDWICH");
+
+		orderService.addItemToOrder(item3);
+
+		BigDecimal charge = item1.getPrice().add(item2.getPrice()).add(item3.getPrice()).multiply(BillPaymentConstants.HOT_FOOD_SERVICE_CHARGE).setScale(2, RoundingMode.HALF_EVEN);
+		BigDecimal fullCost = charge.add(item1.getPrice()).add(item2.getPrice()).add(item3.getPrice()); 
+		
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append("[").append(item1.getPrice()).append( ", ").append(item2.getPrice()).append(", ").append(item3.getPrice()).append("]"); //[[1.00, 2.00, 4.50]
+		sb.append(System.getProperty("line.separator"));
+		sb.append("Total of items is " + item1.getPrice().add(item2.getPrice()).add(item3.getPrice()));
+		sb.append(System.getProperty("line.separator"));
+		sb.append("Service Charge is " + charge);
+		sb.append(System.getProperty("line.separator"));
+		sb.append("Grand Total is " + fullCost);
+	
+		
+		assertTrue(orderService.printFullBill().equals(sb.toString()));
+		
+	}
+
 }
